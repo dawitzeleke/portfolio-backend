@@ -3,8 +3,8 @@ from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException, status
 
-from config.database import db
-from models.social_links_model import SocialLinkIn, SocialLinkOut
+from src.config.database import db
+from src.models.social_links_model import SocialLinkIn, SocialLinkOut
 
 router = APIRouter()
 

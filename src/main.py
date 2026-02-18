@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from routers.social_links import router as social_links_router
+from src.routers.social_links import router as social_links_router
 
 app = FastAPI()
 
