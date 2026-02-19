@@ -33,3 +33,28 @@ def create_social_link(social_link: SocialLinkIn):
             detail="Failed to create social link",
         )
     return serialize_social_link(created)
+
+@router.delete("/{social_link_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_social_link(social_link_id: str):
+    result = social_links_collection.delete_one({"_id": ObjectId(social_link_id)})
+    print(result)
+    if result.deleted_count == 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Social link not found",
+        )
+    return None
+
+@router.put("/{social_link_id}", response_model=SocialLinkOut, status_code=status.HTTP_200_OK)
+def update_social_link(social_link_id: str, social_link: SocialLinkIn):
+    result = social_links_collection.find_one_and_update(
+        {"_id": ObjectId(social_link_id)},
+        {"$set": social_link.dict()},
+        return_document=True
+    )
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Social link not found",
+        )
+    return serialize_social_link(result)
