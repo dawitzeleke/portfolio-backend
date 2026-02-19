@@ -23,7 +23,7 @@ def get_social_links():
     return [serialize_social_link(doc) for doc in docs]
 
 
-@router.post("", response_model=SocialLinkOut, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=SocialLinkOut, status_code=status.HTTP_201_CREATED, )
 def create_social_link(social_link: SocialLinkIn):
     result = social_links_collection.insert_one(social_link.dict())
     created = social_links_collection.find_one({"_id": ObjectId(result.inserted_id)})
