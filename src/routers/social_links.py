@@ -1,7 +1,7 @@
 from typing import List
 
 from bson import ObjectId
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, WebSocket, status
 
 from src.config.database import db
 from src.models.social_links_model import SocialLinkIn, SocialLinkOut
@@ -58,3 +58,12 @@ def update_social_link(social_link_id: str, social_link: SocialLinkIn):
             detail="Social link not found",
         )
     return serialize_social_link(result)
+
+
+@router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    print("WebSocket connection accepted")
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message received: {data}")
